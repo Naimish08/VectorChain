@@ -3,12 +3,12 @@ uvicorn[standard]
 python-dotenv
 pydantic-settings
 
+langchain_community
 langchain
 langchain-google-genai
-langchain-community
+langchain-pinecone
 google-generativeai
 pypdf
-faiss-cpu
 lark
 
 requests

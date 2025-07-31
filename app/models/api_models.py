@@ -1,23 +1,27 @@
 from pydantic import BaseModel, Field, HttpUrl
-from typing import List
+from typing import List, Optional
 
-# Defines the structure of the incoming JSON request.
-class RequestPayload(BaseModel):
-    documents: HttpUrl = Field(..., description="URL to the PDF document to be processed.")
-    questions: List[str] = Field(..., description="A list of questions to answer based on the document.")
+# --- API Request/Response Models ---
 
-# Defines the structure of a single answer object.
-class QuestionAnswer(BaseModel):
+class UploadRequest(BaseModel):
+    url: HttpUrl = Field(..., description="URL of the PDF document to be indexed.")
+
+class UploadResponse(BaseModel):
+    document_id: str
+    message: str
+
+class QueryRequest(BaseModel):
+    question: str = Field(..., description="The question to ask about the document.")
+
+class QueryResponse(BaseModel):
     question: str
     answer: str
+    document_id: str
 
-# Defines the overall structure of the JSON response.
-class ResponsePayload(BaseModel):
-    answers: List[QuestionAnswer]
-
-# This is the GENERIC metadata schema, adaptable to any document type.
-class GenericDocumentMetadata(BaseModel):
-    """A generic metadata schema for any document chunk."""
-    main_topic: str = Field(description="The primary, high-level topic of this text chunk (e.g., 'Contractual Obligations', 'Financial Results', 'Methodology').")
-    summary: str = Field(description="A concise one-sentence summary of the chunk's content.")
-    key_entities: List[str] = Field(description="A list of important named entities (like people, products, or technical terms) mentioned in the text.")
+# --- Metadata Schema (Step 3b in your diagram) ---
+# This guides the LLM on what structured data to extract from each chunk.
+class DocumentMetadata(BaseModel):
+    """Schema for metadata to be extracted from a document chunk."""
+    plan_name: Optional[str] = Field(description="The specific insurance plan name, like 'A', 'B', if mentioned.")
+    benefit_type: Optional[str] = Field(description="The type of benefit, like 'Room Rent', 'NCD', 'Maternity'.")
+    section: Optional[str] = Field(description="The section title, like 'Exclusions', 'Definitions'.")
