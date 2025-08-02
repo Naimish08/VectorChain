@@ -8,7 +8,7 @@ def generate_embeddings(documents: List[Document]) -> List[Dict]:
     # Initialize embeddings (API key should be in config or env)
     embeddings = GoogleGenerativeAIEmbeddings(
         model="models/text-embedding-004",
-        google_api_key=os.getenv("GOOGLE_API_KEY", "AIzaSyCWJJ_Wg9c5CVJO37VDjG5re9YxN8ux4gU")
+        google_api_key=os.getenv("GOOGLE_API_KEY")
     )
     
     texts = [doc.page_content for doc in documents]

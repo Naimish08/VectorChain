@@ -6,7 +6,7 @@ import os
 def upsert_to_pinecone(embedded_docs: List[Dict]) -> None:
     """Upsert embedded documents to Pinecone index."""
     # Initialize Pinecone (API key should be in config or env)
-    pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY", "pcsk_2uzvZY_AKLgp4KmLmtmjrbbZDErZQrEsKLKW7Adduyz1T1UPTaiTcPYtMD4nUvVsPxhEyY"))
+    pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
     
     index_name = "my-index"
     
