@@ -7,7 +7,7 @@ import google.api_core.exceptions
 def process_top_chunks(query: str, chunks: List[Dict]) -> str:
     """Process top chunks with an LLM to generate a concise yet comprehensive answer."""
     # Initialize LLM
-    genai.configure(api_key=os.getenv("GOOGLE_API_KEY", "AIzaSyCWJJ_Wg9c5CVJO37VDjG5re9YxN8ux4gU"))
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
     model = genai.GenerativeModel("gemini-2.5-flash")  # Changed to match Colab
     
     # Combine chunks into context, truncating each chunk to avoid token overflow
